@@ -1,0 +1,31 @@
+stages:
+  - lint_test
+  - build
+
+variables:
+  DOCKER_DRIVER: overlay2
+
+lint_test:
+  stage: lint_test
+  image: python:3.11
+  before_script:
+    - pip install -r services/service_a/requirements.txt
+    - pip install black flake8 isort pytest
+  script:
+    - black --check .
+    - isort --check .
+    - flake8 .
+    - pytest
+
+docker_build:
+  stage: build
+  image: docker:26.1-dind
+  services:
+    - name: docker:26.1-dind
+      command: ["dockerd-entrypoint.sh"]
+  variables:
+    DOCKER_TLS_CERTDIR: ""
+  script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    - docker build -t $CI_REGISTRY_IMAGE/service_a:latest -f services/service_a/Dockerfile .
+    - docker push $CI_REGISTRY_IMAGE/service_a:latest
