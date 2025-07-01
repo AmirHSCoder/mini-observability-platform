@@ -16,7 +16,7 @@ A minimal, containerised observability stack with demo FastAPI services instrume
 
 ## Quick Start
 ```bash
-git clone https://github.com/<you>/mini-observability-platform.git
+git clone https://github.com/AmirHSad/mini-observability-platform.git
 cd mini-observability-platform/compose
 docker compose up -d --build
 ```
