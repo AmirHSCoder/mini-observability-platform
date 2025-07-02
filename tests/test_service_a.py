@@ -4,7 +4,7 @@ import sys
 from fastapi.testclient import TestClient
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "..", "services"))
-from service_a.app.main import app
+from service_a.app.main import app  # noqa: E402
 
 client = TestClient(app)
 
