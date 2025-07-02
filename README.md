@@ -21,6 +21,19 @@ cd mini-observability-platform/compose
 docker compose up -d --build
 ```
 
+### Scaling
+
+Run multiple instances of `service_a` to handle more traffic:
+
+```bash
+docker compose up --scale service_a=2 -d
+```
+
+Each replica exposes metrics, traces and logs with a unique
+`service.instance.id` derived from the container hostname. This allows
+Grafana, Jaeger and Kibana to distinguish between instances when the
+service is scaled.
+
 Access UIs:
 
 - Grafana: <http://localhost:3000> (admin / admin)
